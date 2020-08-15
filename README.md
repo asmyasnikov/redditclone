@@ -1,4 +1,4 @@
-# redditclone ia a clone of reddit website written on go 
+# redditclone is a clone of reddit website written on go 
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/asmyasnikov/redditclone?style=flat-square)](https://goreportcard.com/report/github.com/asmyasnikov/redditclone)
 [![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](http://godoc.org/github.com/asmyasnikov/redditclone)
