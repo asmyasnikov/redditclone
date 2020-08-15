@@ -14,7 +14,7 @@ type Configuration struct {
 	Server struct {
 		HTTPListen string `config:"httplisten"`
 	} `config:"server"`
-	Log        Log `config:"log"`
+	Log        Log `config:"logger"`
 	DB         DB  `config:"db"`
 	Repository struct {
 		Type string `config:"type"`
@@ -60,4 +60,32 @@ func Get() (*Configuration, error) {
 	)
 	err := loader.Load(context.Background(), &config)
 	return &config, err
+}
+
+// Get func return the app config
+func Default() *Configuration {
+	return &Configuration{
+		Server: struct {
+			HTTPListen string `config:"httplisten"`
+		}{
+			HTTPListen: ":80",
+		},
+		Log: Log{
+			Encoding:      "json",
+			OutputPaths:   []string{"redditclone.log"},
+			Level:         "debug",
+			InitialFields: map[string]interface{}{"app": "redditclone"},
+		},
+		DB: DB{
+			Dialect: "sqlite3",
+			DSN:     "",
+		},
+		Repository: struct {
+			Type string `config:"type"`
+		}{
+			Type: "db",
+		},
+		JWTSigningKey: "LxsKJywDL5O5PvgODZhBH12KE6k2yL8E",
+		JWTExpiration: 72,
+	}
 }
