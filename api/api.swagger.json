@@ -28,7 +28,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/redditcloneAddressResponse"
+              "$ref": "#/definitions/apiAddressResponse"
             }
           },
           "default": {
@@ -90,13 +90,13 @@
               "type": "object",
               "properties": {
                 "result": {
-                  "$ref": "#/definitions/redditcloneSubscribeResponse"
+                  "$ref": "#/definitions/apiSubscribeResponse"
                 },
                 "error": {
                   "$ref": "#/definitions/runtimeStreamError"
                 }
               },
-              "title": "Stream result of redditcloneSubscribeResponse"
+              "title": "Stream result of apiSubscribeResponse"
             }
           },
           "default": {
@@ -135,6 +135,20 @@
         }
       }
     },
+    "apiAddressResponse": {
+      "type": "object",
+      "properties": {
+        "balance": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "transactions_count": {
+          "type": "string"
+        }
+      }
+    },
     "apiHttpBody": {
       "type": "object",
       "properties": {
@@ -156,6 +170,23 @@
         }
       },
       "description": "Message that represents an arbitrary HTTP body. It should only be used for\npayload formats that can't be represented as JSON, such as raw binary or\nan HTML page.\n\n\nThis message can be used both in streaming and non-streaming API methods in\nthe request as well as the response.\n\nIt can be used as a top-level request field, which is convenient if one\nwants to extract parameters from either the URL or HTTP template into the\nrequest fields and also want access to the raw HTTP body.\n\nExample:\n\n    message GetResourceRequest {\n      // A unique request id.\n      string request_id = 1;\n\n      // The raw HTTP body is bound to this field.\n      google.api.HttpBody http_body = 2;\n    }\n\n    service ResourceService {\n      rpc GetResource(GetResourceRequest) returns (google.api.HttpBody);\n      rpc UpdateResource(google.api.HttpBody) returns\n      (google.protobuf.Empty);\n    }\n\nExample with streaming methods:\n\n    service CaldavService {\n      rpc GetCalendar(stream google.api.HttpBody)\n        returns (stream google.api.HttpBody);\n      rpc UpdateCalendar(stream google.api.HttpBody)\n        returns (stream google.api.HttpBody);\n    }\n\nUse of this type only changes how the request and response bodies are\nhandled, all other features will continue to work unchanged."
+    },
+    "apiSubscribeResponse": {
+      "type": "object",
+      "properties": {
+        "query": {
+          "type": "string"
+        },
+        "data": {
+          "type": "object"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubscribeResponseEvent"
+          }
+        }
+      }
     },
     "protobufAny": {
       "type": "object",
@@ -179,37 +210,6 @@
       ],
       "default": "NULL_VALUE",
       "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
-    },
-    "redditcloneAddressResponse": {
-      "type": "object",
-      "properties": {
-        "balance": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          }
-        },
-        "transactions_count": {
-          "type": "string"
-        }
-      }
-    },
-    "redditcloneSubscribeResponse": {
-      "type": "object",
-      "properties": {
-        "query": {
-          "type": "string"
-        },
-        "data": {
-          "type": "object"
-        },
-        "events": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SubscribeResponseEvent"
-          }
-        }
-      }
     },
     "runtimeError": {
       "type": "object",

@@ -1,9 +1,11 @@
 package redditclone
 
 import (
-	api "github.com/asmyasnikov/redditclone/api"
+	"fmt"
+	"github.com/asmyasnikov/redditclone/api"
 )
 
-func Run(/*cfg*/ *api.Configuration) error {
+func Run(cfg *api.Configuration) error {
+	fmt.Println(cfg.Server.HTTPListen)
 	return nil
 }

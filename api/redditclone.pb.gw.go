@@ -2,11 +2,11 @@
 // source: api/redditclone.proto
 
 /*
-Package redditclone is a reverse proxy.
+Package api is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package redditclone
+package api
 
 import (
 	"context"
