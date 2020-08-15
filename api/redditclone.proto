@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package redditclone;
+
+import "google/api/annotations.proto";
+import "google/protobuf/struct.proto";
+import "google/api/httpbody.proto";
+import "google/protobuf/empty.proto";
+import "protoc-gen-swagger/options/annotations.proto";
+import "google/rpc/status.proto";
+
+message AddressRequest {
+    string address = 1;
+    uint64 height = 2;
+}
+
+message AddressResponse {
+    map<string, string> balance = 1;
+    string transactions_count = 2;
+}
+
+message SubscribeRequest {
+    string query = 1;
+}
+
+message SubscribeResponse {
+    string query = 1;
+    google.protobuf.Struct data = 2;
+    message Event {
+        string key = 1;
+        repeated string events = 2;
+    }
+    repeated Event events = 3;
+}
+
+service BlockchainService {
+    rpc Address (AddressRequest) returns (AddressResponse) {
+        option (google.api.http) = {
+            get: "/address/{address}"
+        };
+    }
+    rpc DownloadFile(google.protobuf.Empty) returns (google.api.HttpBody) {
+        option (google.api.http) = {
+			get: "/file.txt"
+		};
+    }
+    rpc Subscribe (SubscribeRequest) returns (stream SubscribeResponse) {
+        option (google.api.http) = {
+            get: "/subscribe"
+        };
+    }
+}
+
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+        title: "My Habr Example Service"
+        version: "1.0"
+        contact: {
+            name: "Aleksey Myasnikov"
+            url: "https://github.com/asmyasnikov"
+        };
+    };
+    schemes: [HTTP,HTTPS,WS,WSS]
+    consumes: "application/json"
+    produces: "application/json"
+    responses: {
+        key: "default"
+        value: {
+            description: ""
+            schema: {
+                json_schema: {
+                    ref: ".google.rpc.Status"
+                };
+            };
+        };
+    };
+};
